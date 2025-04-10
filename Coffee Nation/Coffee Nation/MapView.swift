@@ -14,7 +14,7 @@ struct MapView: View {
     @State private var foundItems: [MKMapItem] = []
     @State private var selectedItem: MKMapItem?
     @StateObject private var locator = Locator()
-    
+    @State private var currentCenterCoordinate: CLLocationCoordinate2D?
     
     @FocusState private var isSearchFieldFocused: Bool
     @Environment(LocationStore.self) private var store
@@ -22,7 +22,7 @@ struct MapView: View {
     var body: some View {
         ZStack {
             // Full-Screen Map
-            Map(position: .constant(locator.position)) {
+            Map(position: $locator.position) {
                 if let selectedItem = selectedItem {
                     Marker(selectedItem.name ?? "Location", coordinate: selectedItem.placemark.coordinate)
                 }
@@ -32,6 +32,9 @@ struct MapView: View {
                 }
             }
             .edgesIgnoringSafeArea(.all)
+            .onMapCameraChange { context in
+                currentCenterCoordinate = context.camera.centerCoordinate
+            }
             
             VStack {
                 // Page Title
@@ -72,20 +75,14 @@ struct MapView: View {
                     .cornerRadius(20)
                     .shadow(radius: 5)
                 }
+                
+                // Save location button
                 Button(action: {
-                    let location = Location(id: UUID(), name: "location.name", description: "none",
-                                            coordinate: CLLocationCoordinate2D(latitude: 70, longitude: -111),
-                                            photos: [])
-                    store.add(location: location)
-                    do {
-                        try LocationStore.save(fileName: "Locations", store: store)
-                    } catch {
-                        print(error)
-                    }
-                }){
+                    saveCurrentMapCenterToFavorites()
+                }) {
                     HStack {
                         Image(systemName: "arrow.down.heart.fill")
-                        Text("Save location to Favorites")
+                        Text("Save Location to Favorites")
                     }
                     .padding()
                     .background(Color.green)
@@ -97,11 +94,10 @@ struct MapView: View {
                 .padding(30)
             }
             
-            
             // Search Results List
             if !foundItems.isEmpty {
                 List(selection: $selectedItem) {
-                    ForEach(foundItems, id: \ .self) { item in
+                    ForEach(foundItems, id: \.self) { item in
                         VStack(alignment: .leading) {
                             let name = item.name ?? "-no-name-"
                             Text(name)
@@ -154,10 +150,73 @@ struct MapView: View {
             print(error)
         }
     }
+    
+    func saveCurrentMapCenterToFavorites() {
+        if let item = selectedItem {
+            // Use selected search result
+            let name = item.name ?? "Unknown Place"
+            let placemark = item.placemark
+            let description = [
+                placemark.subThoroughfare,
+                placemark.thoroughfare,
+                placemark.locality,
+                placemark.administrativeArea,
+                placemark.country
+            ]
+            .compactMap { $0 }
+            .joined(separator: ", ")
+            
+            let location = Location(
+                id: UUID(),
+                name: name,
+                description: description,
+                coordinate: placemark.coordinate,
+                photos: []
+            )
+            
+            store.add(location: location)
+            do {
+                try LocationStore.save(fileName: "Locations", store: store)
+            } catch {
+                print(error)
+            }
+        } else if let coordinate = currentCenterCoordinate {
+            // Use map center
+            let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            let geocoder = CLGeocoder()
+            
+            geocoder.reverseGeocodeLocation(location) { placemarks, error in
+                let placemark = placemarks?.first
+                let name = placemark?.name ?? "Pinned Location"
+                let description = [
+                    placemark?.thoroughfare,
+                    placemark?.locality,
+                    placemark?.administrativeArea,
+                    placemark?.country
+                ]
+                .compactMap { $0 }
+                .joined(separator: ", ")
+                
+                let savedLocation = Location(
+                    id: UUID(),
+                    name: name,
+                    description: description,
+                    coordinate: coordinate,
+                    photos: []
+                )
+                
+                store.add(location: savedLocation)
+                do {
+                    try LocationStore.save(fileName: "Locations", store: store)
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
 }
 
 #Preview {
     MapView()
         .environment(LocationStore())
 }
-
