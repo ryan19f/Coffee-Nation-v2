@@ -27,6 +27,7 @@ struct MainView: View {
                     .tabItem {
                         Label("Favorites", systemImage: "star")
                     }
+                    .badge(store.locations.count)
                     .tag(CoffeeTab.FavTab)
                 ContentView(path: $path)
                     // .tabItem {
