@@ -21,7 +21,7 @@ struct Coffee_NationApp: App {
     @State private var store: LocationStore
     var body: some Scene {
         WindowGroup {
-            SplashScreenView()
+            RootView()
                 .environment(store)
         }
     }

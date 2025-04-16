@@ -12,31 +12,28 @@ import MapKit
 
 struct FavView: View {
     @Environment(LocationStore.self) private var store
+    @State private var selectedLocation: Location?
     
     var body: some View {
-        NavigationView{
-            NavigationStack {
-                VStack {
-                    List {
-                        ForEach(store.locations) { item in
-                            NavigationLink(value: item) {
-                                Text(item.name)
-                            }
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(store.locations) { item in
+                        Button {
+                            selectedLocation = item
+                        } label: {
+                            Text(item.name)
                         }
-                        .onDelete(perform: deleteItems)
-                        .onMove(perform: moveItems)
                     }
+                    .onDelete(perform: deleteItems)
+                    .onMove(perform: moveItems)
                 }
-                .navigationDestination(for: Location.self) { item in
-                    EditLocationView(location: item)
-                }
-        
             }
             .padding()
             .navigationTitle("Favorites")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink(destination: ProfileView()){
+                    NavigationLink(destination: ProfileView()) {
                         Image("Avatar")
                             .resizable()
                             .scaledToFit()
@@ -45,9 +42,15 @@ struct FavView: View {
                     }
                 }
             }
+            .sheet(item: $selectedLocation) { item in
+                EditLocationView(location: item)
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.visible)
+            }
             .listStyle(.grouped)
         }
     }
+    
     func deleteItems(at offsets: IndexSet) {
         store.delete(at: offsets)
         archive()
@@ -59,7 +62,6 @@ struct FavView: View {
     }
     
     func archive() {
-        print("archive")
         do {
             try LocationStore.save(fileName: "Locations", store: store)
         } catch {
