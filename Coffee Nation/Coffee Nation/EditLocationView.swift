@@ -12,13 +12,14 @@ import MapKit
 struct EditLocationView: View {
     @Environment(LocationStore.self) private var store
     @Environment(\.dismiss) private var dismiss
-    
+
     @Bindable var location: Location
     @State private var selectedItems: [PhotosPickerItem] = []
     @State private var showLocationSearch = false
     @State private var showCloseConfirmation = false
     @State private var hasChanges = false
-
+    @State private var showSaveAlert = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -31,15 +32,29 @@ struct EditLocationView: View {
                     }
 
                     Section(header: Text("Map")) {
-                        Map {
-                            Annotation(location.name, coordinate: location.coordinate) {
-                                Image(systemName: "mappin.circle.fill")
-                                    .foregroundColor(.red)
-                                    .font(.title)
+                        VStack {
+                            Map {
+                                Annotation(location.name, coordinate: location.coordinate) {
+                                    Image(systemName: "mappin.circle.fill")
+                                        .foregroundColor(.red)
+                                        .font(.title)
+                                }
+                            }
+                            .frame(height: 200)
+                            .cornerRadius(10)
+                            
+                            Button(action: {
+                                openInMaps()
+                            }) {
+                                Label("Navigate Here", systemImage: "car.fill")
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.blue)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                                    .padding(.top, 8)
                             }
                         }
-                        .frame(height: 200)
-                        .cornerRadius(10)
                     }
 
                     Section(header: Text("Photos")) {
@@ -76,7 +91,10 @@ struct EditLocationView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         save()
-                        dismiss()
+                        showSaveAlert = true
+                    }
+                    .alert("Saved!", isPresented: $showSaveAlert) {
+                        Button("OK", role: .cancel) { dismiss() }
                     }
                 }
             }
@@ -110,6 +128,14 @@ struct EditLocationView: View {
         } catch {
             print("Error saving location:", error)
         }
+    }
+
+    func openInMaps() {
+        let destination = MKMapItem(placemark: MKPlacemark(coordinate: location.coordinate))
+        destination.name = location.name
+        destination.openInMaps(launchOptions: [
+            MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving
+        ])
     }
 }
 

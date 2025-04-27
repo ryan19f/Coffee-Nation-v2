@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AVFoundation
 
 struct SplashScreenView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -14,14 +15,16 @@ struct SplashScreenView: View {
     @State private var scale = 0.6
     @State private var opacity = 0.5
     
+    @State private var audioPlayer: AVAudioPlayer?
+    
     var body: some View {
         if isActive {
-            MainView() // After animation, switch to main content
+            MainView()
         } else {
             ZStack {
-                        // Set background color based on light/dark mode
-                        (colorScheme == .dark ? Color.black : Color.white)
-                            .ignoresSafeArea()
+                (colorScheme == .dark ? Color.black : Color.white)
+                    .ignoresSafeArea()
+                
                 VStack {
                     Image("1024")
                         .resizable()
@@ -35,23 +38,68 @@ struct SplashScreenView: View {
                                 scale = 1.0
                                 opacity = 1.0
                             }
+                            playIntroMusic()
+                            
+                            // Fade music out just before transition
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                fadeOutMusic()
+                            }
+                            
+                            // Trigger haptic and move to MainView
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                                triggerHaptic()
                                 isActive = true
                             }
                         }
+                    
                     Image(systemName: "heart.fill")
                         .imageScale(.large)
                         .foregroundStyle(.tint)
-                    Text("Welcome to Coffee Nation").bold()
+                    
+                    Text("Welcome to Coffee Nation")
+                        .bold()
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(colorScheme == .dark ? .white : .black)
         }
     }
+    
+    private func playIntroMusic() {
+        if let path = Bundle.main.path(forResource: "intro", ofType: "mp3") {
+            let url = URL(fileURLWithPath: path)
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.volume = 1.0
+                audioPlayer?.play()
+            } catch {
+                print("Error playing intro music: \(error.localizedDescription)")
+            }
+        } else {
+            print("Intro music file not found.")
+        }
+    }
+    
+    private func fadeOutMusic() {
+        guard let player = audioPlayer else { return }
+        
+        Timer.scheduledTimer(withTimeInterval: 0.15, repeats: true) { timer in
+            if player.volume > 0.05 {
+                player.volume -= 0.05
+            } else {
+                player.stop()
+                timer.invalidate()
+            }
+        }
+    }
+    
+    private func triggerHaptic() {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        generator.impactOccurred()
+    }
 }
 
 #Preview {
     SplashScreenView()
 }
-

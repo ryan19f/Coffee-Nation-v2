@@ -17,6 +17,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack(path: $path){
                 VStack {
+                    
                     Text("Welcome to Coffee Nation").bold()
                     
                         
@@ -24,6 +25,10 @@ struct ContentView: View {
                         .imageScale(.large)
                         .foregroundStyle(.tint)
                         .offset(y: -50)
+                    // Marquee View
+                    MarqueeText(text: "☕ Discover blends near you on Coffee Nation! ☕")
+                        .frame(height: 30)
+                        .padding(.top, 20)
 
 
                     HStack{
@@ -41,6 +46,9 @@ struct ContentView: View {
                         .imageScale(.large)
                         .foregroundStyle(.tint)
                     Text("Find Your Perfect Cup!").italic()
+                    
+                    
+                    
                         
                     
                 }
@@ -71,9 +79,26 @@ struct ContentView: View {
         }
     }
 }
+struct MarqueeText: View {
+    let text: String
+    @State private var offset: CGFloat = UIScreen.main.bounds.width
+
+    var body: some View {
+        Text(text)
+            .font(.subheadline
+                .bold())
+            .offset(x: offset)
+            .onAppear {
+                withAnimation(.linear(duration: 10).repeatForever(autoreverses: true)) {
+                    offset = -UIScreen.main.bounds.width
+                }
+            }
+    }
+}
 
 #Preview {
     //ContentView()
-
+    //            locationStore: LocationStore()
+ //   )
 
 }
