@@ -13,6 +13,7 @@ import MapKit
 struct FavView: View {
     @Environment(LocationStore.self) private var store
     @State private var selectedLocation: Location?
+
     
     var body: some View {
         NavigationView {

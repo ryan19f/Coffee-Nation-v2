@@ -20,6 +20,10 @@ struct EditLocationView: View {
     @State private var hasChanges = false
     @State private var showSaveAlert = false
     
+    @State private var takenPhoto: UIImage? = nil
+    @State private var showCamera = false
+    @State private var showPhotoPreview = false
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -30,7 +34,7 @@ struct EditLocationView: View {
                         TextField("Description", text: $location.description)
                             .onChange(of: location.description) { _ in hasChanges = true }
                     }
-
+                    
                     Section(header: Text("Map")) {
                         VStack {
                             Map {
@@ -43,9 +47,7 @@ struct EditLocationView: View {
                             .frame(height: 200)
                             .cornerRadius(10)
                             
-                            Button(action: {
-                                openInMaps()
-                            }) {
+                            Button(action: openInMaps) {
                                 Label("Navigate Here", systemImage: "car.fill")
                                     .frame(maxWidth: .infinity)
                                     .padding()
@@ -56,20 +58,53 @@ struct EditLocationView: View {
                             }
                         }
                     }
-
-                    Section(header: Text("Photos")) {
-                        VStack(alignment: .leading) {
-                            PhotosPicker(selection: $selectedItems, matching: .images) {
-                                Label("Add Photos", systemImage: "photo.fill.on.rectangle.fill")
+                    
+                    Section(header: Text("Take Photos")) {
+                        VStack(alignment: .leading, spacing: 12) {
+                            
+                            // 📸 Take Photo Button
+                            Button(action: {
+                                showCamera = true
+                            }) {
+                                Label("Take a Photo",systemImage: "camera.fill")
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.green)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(10)
+                            }
+                            .sheet(isPresented: $showCamera) {
+                                CameraView(takenPhoto: $takenPhoto)
+                                    .onDisappear {
+                                        if takenPhoto != nil {
+                                            showPhotoPreview = true
+                                        }
+                                    }
                             }
                         }
+                    }
+                    Section(header: Text("Add Photos")){
+                        
+                        // 🖼️ Add from Gallery Button
+                        PhotosPicker(selection: $selectedItems, matching: .images) {
+                            Label("Add Photos", systemImage: "photo.fill.on.rectangle.fill")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        
+                        // 📷 Photo Grid
                         if !location.photos.isEmpty {
                             PhotosGridView(photos: location.photos)
                                 .frame(height: 100)
+                                .animation(.easeInOut, value: location.photos) // 🔥 Animate changes
                         }
                     }
                 }
             }
+            
             .navigationTitle("Edit Location")
             .navigationBarTitleDisplayMode(.inline)
             .onChange(of: selectedItems) {
@@ -106,18 +141,73 @@ struct EditLocationView: View {
             } message: {
                 Text("You have unsaved changes. Are you sure you want to discard them?")
             }
+            // 📸 Preview Taken Photo
+            .sheet(isPresented: $showPhotoPreview) {
+                if let photo = takenPhoto {
+                    VStack {
+                        Image(uiImage: photo)
+                            .resizable()
+                            .scaledToFit()
+                            .padding()
+                        
+                        HStack {
+                            Button("Discard", role: .destructive) {
+                                takenPhoto = nil
+                                showPhotoPreview = false
+                            }
+                            .padding()
+                            
+                            Spacer()
+                            
+                            Button("Save") {
+                                saveTakenPhoto(photo)
+                                takenPhoto = nil
+                                showPhotoPreview = false
+                            }
+                            .padding()
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+            }
         }
     }
+
+    // MARK: - Helper Functions
 
     func importSelectedPhotos() {
         Task {
             for item in selectedItems {
                 if let asset = try? await item.loadTransferable(type: PhotoAsset.self) {
-                    location.add(asset: asset)
-                    hasChanges = true
+                    withAnimation {
+                        location.add(asset: asset)
+                        hasChanges = true
+                    }
                 }
             }
             selectedItems = []
+        }
+    }
+
+    func saveTakenPhoto(_ image: UIImage) {
+        Task {
+            do {
+                let filename = "\(UUID().uuidString).png"
+                let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let fileURL = documentsDirectory.appendingPathComponent(filename)
+                
+                if let data = image.pngData() {
+                    try data.write(to: fileURL)
+                    
+                    withAnimation {
+                        let asset = PhotoAsset(id: UUID(), url: URL(string: filename)!, contentType: .png)
+                        location.add(asset: asset)
+                        hasChanges = true
+                    }
+                }
+            } catch {
+                print("Error saving photo:", error)
+            }
         }
     }
 

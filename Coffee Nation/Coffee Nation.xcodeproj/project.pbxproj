@@ -399,6 +399,9 @@
 				DEVELOPMENT_TEAM = UY7M984DUP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Coffee-Nation-Info.plist";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your photo library to select photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to the camera to take location photos.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -431,6 +434,9 @@
 				DEVELOPMENT_TEAM = UY7M984DUP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Coffee-Nation-Info.plist";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "We need access to your photo library to select photos.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to the camera to take location photos.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
