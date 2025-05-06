@@ -8,8 +8,7 @@
 - 📍 **My Location Pin**: Your current location is always visible and easy to center.
 - 🔍 **Search Nearby Cafés**: Quick access to café suggestions right from the search bar.
 - 📸 **Full-Screen Native Camera**: Capture photos using the system camera with a sleek floating button UI.
-- 🧠 **On-Device Analysis**: Detect faces, animals, and text with bounding box overlays using Apple’s Vision framework.
-- 🟢 **Live Activities**: A delightful coffee drip animation in the Dynamic Island while your order brews.
+- 🟢 **Live Activities**: A delightful coffee drip animation in the Dynamic Island while your order brews.(Still Experimenting)
 
 ## 🛠️ Tech Stack
 
@@ -32,7 +31,7 @@
 
 3. Build and run on an iOS simulator or physical device.
 
-> Note: Some features like the camera and Live Activities require a real iOS device.
+> Note: Some features like the camera and Live Activities require a real iOS device.(Still work in progress)
 
 ## 📷 Screenshots
 
