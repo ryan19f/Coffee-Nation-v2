@@ -6,7 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3FC4DB742DC18CBA00BAB6BE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC4DB732DC18CBA00BAB6BE /* WidgetKit.framework */; };
+		3FC4DB762DC18CBA00BAB6BE /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC4DB752DC18CBA00BAB6BE /* SwiftUI.framework */; };
+		3FC4DB832DC18CBC00BAB6BE /* CoffeeDripWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3FC4DB712DC18CBA00BAB6BE /* CoffeeDripWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		3FC4DB812DC18CBC00BAB6BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 948FB3442D0AA751003430B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3FC4DB702DC18CBA00BAB6BE;
+			remoteInfo = CoffeeDripWidgetExtension;
+		};
 		948FB35D2D0AA753003430B2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 948FB3442D0AA751003430B2 /* Project object */;
@@ -23,13 +36,57 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3FC4DAF02DC1852400BAB6BE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3FC4DB832DC18CBC00BAB6BE /* CoffeeDripWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		3FC4DB712DC18CBA00BAB6BE /* CoffeeDripWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoffeeDripWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FC4DB732DC18CBA00BAB6BE /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		3FC4DB752DC18CBA00BAB6BE /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		948FB34C2D0AA751003430B2 /* Coffee Nation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Coffee Nation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		948FB35C2D0AA753003430B2 /* Coffee NationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Coffee NationTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		948FB3662D0AA753003430B2 /* Coffee NationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Coffee NationUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3FC4DB842DC18CBC00BAB6BE /* Exceptions for "CoffeeDripWidget" folder in "CoffeeDripWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3FC4DB702DC18CBA00BAB6BE /* CoffeeDripWidgetExtension */;
+		};
+		3FC4DB8D2DC18F4A00BAB6BE /* Exceptions for "CoffeeDripWidget" folder in "Coffee Nation" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CoffeeDripAttributes.swift,
+				DripAnimationView.swift,
+			);
+			target = 948FB34B2D0AA751003430B2 /* Coffee Nation */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3FC4DB772DC18CBA00BAB6BE /* CoffeeDripWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3FC4DB8D2DC18F4A00BAB6BE /* Exceptions for "CoffeeDripWidget" folder in "Coffee Nation" target */,
+				3FC4DB842DC18CBC00BAB6BE /* Exceptions for "CoffeeDripWidget" folder in "CoffeeDripWidgetExtension" target */,
+			);
+			path = CoffeeDripWidget;
+			sourceTree = "<group>";
+		};
 		948FB34E2D0AA751003430B2 /* Coffee Nation */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Coffee Nation";
@@ -48,6 +105,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3FC4DB6E2DC18CBA00BAB6BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FC4DB762DC18CBA00BAB6BE /* SwiftUI.framework in Frameworks */,
+				3FC4DB742DC18CBA00BAB6BE /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		948FB3492D0AA751003430B2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,12 +138,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3FC4DB722DC18CBA00BAB6BE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3FC4DB732DC18CBA00BAB6BE /* WidgetKit.framework */,
+				3FC4DB752DC18CBA00BAB6BE /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		948FB3432D0AA751003430B2 = {
 			isa = PBXGroup;
 			children = (
 				948FB34E2D0AA751003430B2 /* Coffee Nation */,
 				948FB35F2D0AA753003430B2 /* Coffee NationTests */,
 				948FB3692D0AA753003430B2 /* Coffee NationUITests */,
+				3FC4DB772DC18CBA00BAB6BE /* CoffeeDripWidget */,
+				3FC4DB722DC18CBA00BAB6BE /* Frameworks */,
 				948FB34D2D0AA751003430B2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +165,7 @@
 				948FB34C2D0AA751003430B2 /* Coffee Nation.app */,
 				948FB35C2D0AA753003430B2 /* Coffee NationTests.xctest */,
 				948FB3662D0AA753003430B2 /* Coffee NationUITests.xctest */,
+				3FC4DB712DC18CBA00BAB6BE /* CoffeeDripWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +173,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3FC4DB702DC18CBA00BAB6BE /* CoffeeDripWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FC4DB852DC18CBC00BAB6BE /* Build configuration list for PBXNativeTarget "CoffeeDripWidgetExtension" */;
+			buildPhases = (
+				3FC4DB6D2DC18CBA00BAB6BE /* Sources */,
+				3FC4DB6E2DC18CBA00BAB6BE /* Frameworks */,
+				3FC4DB6F2DC18CBA00BAB6BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3FC4DB772DC18CBA00BAB6BE /* CoffeeDripWidget */,
+			);
+			name = CoffeeDripWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = CoffeeDripWidgetExtension;
+			productReference = 3FC4DB712DC18CBA00BAB6BE /* CoffeeDripWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		948FB34B2D0AA751003430B2 /* Coffee Nation */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 948FB3702D0AA753003430B2 /* Build configuration list for PBXNativeTarget "Coffee Nation" */;
@@ -102,10 +202,12 @@
 				948FB3482D0AA751003430B2 /* Sources */,
 				948FB3492D0AA751003430B2 /* Frameworks */,
 				948FB34A2D0AA751003430B2 /* Resources */,
+				3FC4DAF02DC1852400BAB6BE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3FC4DB822DC18CBC00BAB6BE /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				948FB34E2D0AA751003430B2 /* Coffee Nation */,
@@ -170,9 +272,12 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1610;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1610;
 				TargetAttributes = {
+					3FC4DB702DC18CBA00BAB6BE = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					948FB34B2D0AA751003430B2 = {
 						CreatedOnToolsVersion = 16.1;
 					};
@@ -203,11 +308,19 @@
 				948FB34B2D0AA751003430B2 /* Coffee Nation */,
 				948FB35B2D0AA753003430B2 /* Coffee NationTests */,
 				948FB3652D0AA753003430B2 /* Coffee NationUITests */,
+				3FC4DB702DC18CBA00BAB6BE /* CoffeeDripWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3FC4DB6F2DC18CBA00BAB6BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		948FB34A2D0AA751003430B2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +345,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3FC4DB6D2DC18CBA00BAB6BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		948FB3482D0AA751003430B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -256,6 +376,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		3FC4DB822DC18CBC00BAB6BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3FC4DB702DC18CBA00BAB6BE /* CoffeeDripWidgetExtension */;
+			targetProxy = 3FC4DB812DC18CBC00BAB6BE /* PBXContainerItemProxy */;
+		};
 		948FB35E2D0AA753003430B2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 948FB34B2D0AA751003430B2 /* Coffee Nation */;
@@ -269,6 +394,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3FC4DB862DC18CBC00BAB6BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UY7M984DUP;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CoffeeDripWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CoffeeDripWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryan19fern-gmail.Coffee-Nation.CoffeeDripWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3FC4DB872DC18CBC00BAB6BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UY7M984DUP;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CoffeeDripWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = CoffeeDripWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ryan19fern-gmail.Coffee-Nation.CoffeeDripWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		948FB36E2D0AA753003430B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -533,6 +714,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3FC4DB852DC18CBC00BAB6BE /* Build configuration list for PBXNativeTarget "CoffeeDripWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FC4DB862DC18CBC00BAB6BE /* Debug */,
+				3FC4DB872DC18CBC00BAB6BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		948FB3472D0AA751003430B2 /* Build configuration list for PBXProject "Coffee Nation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

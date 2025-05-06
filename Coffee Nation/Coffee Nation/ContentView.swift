@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ActivityKit
 
 enum DestinationViews {
     case CoffeeBlend
@@ -14,6 +15,8 @@ enum DestinationViews {
 
 struct ContentView: View {
     @Binding var path: [DestinationViews]
+    @State private var showLogoutConfirmation = false
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
     var body: some View {
         NavigationStack(path: $path){
                 VStack {
@@ -31,6 +34,8 @@ struct ContentView: View {
                         .padding(.top, 20)
 
 
+
+
                     HStack{
                         NavigationLink(value: DestinationViews.CoffeeBlend){
                             Image("Blend")
@@ -46,7 +51,8 @@ struct ContentView: View {
                         .imageScale(.large)
                         .foregroundStyle(.tint)
                     Text("Find Your Perfect Cup!").italic()
-                    
+                    // Overlay the coffee drip
+                    DrippingCoffeeView()
                     
                     
                         
@@ -76,6 +82,24 @@ struct ContentView: View {
                     }
                 }
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(" Log Out", role: .destructive) {
+                        showLogoutConfirmation = true
+                    }
+                    .foregroundColor(.white)
+                    .background(Color.red)
+                    .bold()
+                    .cornerRadius(20)
+                    .shadow(radius: 5)
+                    .alert("Are you sure you want to log out?", isPresented: $showLogoutConfirmation) {
+                        Button("Cancel", role: .cancel) {}
+                        Button("Log Out", role: .destructive) {
+                            isLoggedIn = false
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -93,6 +117,20 @@ struct MarqueeText: View {
                     offset = -UIScreen.main.bounds.width
                 }
             }
+    }
+}
+func startCoffeeDripActivity() async {
+    let attributes = CoffeeDripAttributes(blendName: "Colombian Roast")
+    let initialState = CoffeeDripAttributes.ContentState(progress: 0.0)
+
+    do {
+        let _ = try Activity<CoffeeDripAttributes>.request(
+            attributes: attributes,
+            contentState: initialState,
+            pushType: nil
+        )
+    } catch {
+        print("Failed to start Live Activity: \(error)")
     }
 }
 
